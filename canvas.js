@@ -52,41 +52,81 @@ function pen(position){
 }
 
 //function for getting the location of mouse pointer
-
-function getPosition(event){
+function getpositionmouse(event){
   var x = event.clientX - canvas.getBoundingClientRect().left;
   var y = event.clientY - canvas.getBoundingClientRect().top;
   return {x:x,y:y};
 }
 
-//stores the location of mouseclick in the start location variable
-
-function dragstart(event){
-  dragging = true;
-  startLocation = getPosition(event);
-  //attribute.style(position);
+//function for getting the location of touch
+function getpositiontouch(event) {
+  if(event.touches) {
+      if (event.touches.length == 1) { // Only deal with one finger
+          var touch = event.touches[0]; // Get the information for finger #1
+          touchX=touch.pageX-touch.target.offsetLeft;
+          touchY=touch.pageY-touch.target.offsetTop;
+      }
+  }
+  return {x:touchX,y:touchY};
 }
 
-//draws the line as the mouse gets dragged
+/////////////////////////    For Non-Touch Devices     ////////////////////////////// 
 
+//stores the location of mouseclick in the start location variable
+function dragstart(event){
+  dragging = true;
+  startLocation = getpositionmouse(event);
+  attribute.style(position);
+}
+//draws the line as the mouse gets dragged
 function drag(event){
   var position;
   if(dragging === true){
-    position = getPosition(event) ;
+    position = getpositionmouse(event) ;
     attribute.style(position);
   }
 }
-
 //stops the drawing when the mouse is lifted
-
 function dragstop(event){
   dragging = false;
   context.beginPath();
 }
 
+
+/////////////////////////    For Touch Devices     ////////////////////////////// 
+
+//stores the location of mouseclick in the start location variable
+function dragstart(event){
+  dragging = true;
+  startLocation = getpositiontouch(event);
+  attribute.style(position);
+}
+//draws the line as the mouse gets dragged
+function drag(event){
+  var position;
+  if(dragging === true){
+    position = getpositiontouch(event) ;
+    attribute.style(position);
+  }
+}
+//stops the drawing when the mouse is lifted
+function dragstop(event){
+  dragging = false;
+  context.beginPath();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
 //adding the function to their respective events
 
 function init() {
+
+  //touch events
+  canvas.addEventListener('touchstart',dragstart);
+  canvas.addEventListener('touchend',dragstop);
+  canvas.addEventListener('touchmove',drag);
+  //mouse events
   canvas.addEventListener('mousedown',dragstart);
   canvas.addEventListener('mouseup',dragstop);
   canvas.addEventListener('mousemove',drag);

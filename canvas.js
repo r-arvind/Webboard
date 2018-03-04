@@ -73,13 +73,13 @@ function getpositiontouch(event) {
 /////////////////////////    For Non-Touch Devices     ////////////////////////////// 
 
 //stores the location of mouseclick in the start location variable
-function dragstart(event){
+function dragStartMouse(event){
   dragging = true;
   startLocation = getpositionmouse(event);
-  attribute.style(position);
+  attribute.style(startLocation);
 }
 //draws the line as the mouse gets dragged
-function drag(event){
+function dragMouse(event){
   var position;
   if(dragging === true){
     position = getpositionmouse(event) ;
@@ -87,7 +87,7 @@ function drag(event){
   }
 }
 //stops the drawing when the mouse is lifted
-function dragstop(event){
+function dragStopMouse(event){
   dragging = false;
   context.beginPath();
 }
@@ -96,13 +96,13 @@ function dragstop(event){
 /////////////////////////    For Touch Devices     ////////////////////////////// 
 
 //stores the location of mouseclick in the start location variable
-function dragstart(event){
+function dragStartTouch(event){
   dragging = true;
   startLocation = getpositiontouch(event);
   attribute.style(position);
 }
 //draws the line as the mouse gets dragged
-function drag(event){
+function dragTouch(event){
   var position;
   if(dragging === true){
     position = getpositiontouch(event) ;
@@ -110,7 +110,7 @@ function drag(event){
   }
 }
 //stops the drawing when the mouse is lifted
-function dragstop(event){
+function dragStopTouch(event){
   dragging = false;
   context.beginPath();
 }
@@ -123,13 +123,14 @@ function dragstop(event){
 function init() {
 
   //touch events
-  canvas.addEventListener('touchstart',dragstart);
-  canvas.addEventListener('touchend',dragstop);
-  canvas.addEventListener('touchmove',drag);
+  canvas.addEventListener('touchstart',dragStartTouch);
+  canvas.addEventListener('touchend',dragStopTouch);
+  canvas.addEventListener('touchmove',dragTouch);
   //mouse events
-  canvas.addEventListener('mousedown',dragstart);
-  canvas.addEventListener('mouseup',dragstop);
-  canvas.addEventListener('mousemove',drag);
+  canvas.addEventListener('mousedown',dragStartMouse);
+  canvas.addEventListener('mouseup',dragStopMouse);
+  canvas.addEventListener('mousemove',dragMouse);
+  window.open(fullscreen=yes);
 }
 
 //adding all of them to the html on load

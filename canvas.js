@@ -159,6 +159,9 @@ function eraser(){
 function pencil(){
   attribute.width = attribute.prevWidth;
   attribute.color = attribute.prevColor;
+  if(attribute.color == 'rgb(256,256,256)'){
+    attribute.color = 'rgb(0,0,0)';
+  }
   delete attribute.prevColor;
   delete attribute.prevWidth;
 }

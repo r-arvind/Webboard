@@ -14,9 +14,16 @@ body{
     -webkit-box-sizing: border-box;
 }
 
+li{
+    padding:0.5em;
+}
+li:hover{
+    color:black;
+    background-color: white;
+}
 /*-----------------------Mobile Phones -------------------------*/
 
-@media only screen and (max-width : 600px){
+@media only screen and (max-width : 500px){
     #minibar{
         position:fixed;
         background-color: rgb(43, 43, 43);
@@ -25,31 +32,26 @@ body{
         position:fixed;
         left:5%;
         right:5%;
-        font-size:1.2em;
-        padding:0.3em;
+        font-size:1.4em;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
         cursor: pointer;
-        display: block;
     }
     
     #minibar > ul{
         list-style-type: none;
         margin: auto;
-        display:inline;
+        display: flex;
+        justify-content: space-between;
+        margin-right: 1em;
     }
     
-    #minibar > ul > li{
-        margin: 0px 0.6em;
-        float:left;
-        display: block;
-    }
     
 }
 
 /*-----------------------Computers -------------------------*/
 
-@media only screen and (min-width:600px){
+@media only screen and (min-width:500px){
     #minibar{
         position:fixed;
         background-color: rgb(43, 43, 43);
@@ -59,7 +61,6 @@ body{
         left:35%;
         right:35%;
         font-size:1.7em;
-        padding:0.3em;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
         cursor: pointer;
@@ -68,12 +69,9 @@ body{
     #minibar > ul{
         list-style-type: none;
         margin: auto;
-}
-    
-    #minibar > ul > li{
-        margin: 0px 12px;
-        float:left;
-        display: block;
+        display: flex;
+        justify-content: space-between;
+        margin-right: 1em;
     }
     
 }

@@ -13,7 +13,7 @@ canvas.height = window.innerHeight;
 
 attribute = {
   width:5,                            //width of ink
-  color:'rgb(0,0,0)',                //color of ink
+  color:'rgb(0,100,0)',                //color of ink
   style: pen                         //style of ink [pen,calligraphy]
 }
 
@@ -134,6 +134,36 @@ function init() {
 }
 
 //adding all of them to the html on load
-
 window.addEventListener('load',init)
 
+
+
+//////////////////////    Miscellaneous Functions    ///////////////////////////
+
+
+//function for erasing the whole canvas
+function clearScreen(){
+  context.clearRect(0,0,canvas.width,canvas.height);
+}
+
+
+//Eraser
+function eraser(){
+  attribute.prevWidth = attribute.width;
+  attribute.prevColor = attribute.color
+  attribute.width = 20;
+  attribute.color = 'rgb(256,256,256)';
+}
+
+//Pencil
+function pencil(){
+  attribute.width = attribute.prevWidth;
+  attribute.color = attribute.prevColor;
+  delete attribute.prevColor;
+  delete attribute.prevWidth;
+}
+
+//ColorFill
+function colorfill(){
+  canvas.addEventListener('onclick',context.fillRect(0,0,canvas.width,canvas.height,attribute.color));
+}

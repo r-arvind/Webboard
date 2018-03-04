@@ -5,5 +5,75 @@ body{
 
 #mycanvas{
     display: block;
+    cursor:crosshair;
 }
 
+*{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+/*-----------------------Mobile Phones -------------------------*/
+
+@media only screen and (max-width : 600px){
+    #minibar{
+        position:fixed;
+        background-color: rgb(43, 43, 43);
+        color:white;
+        width:90%;
+        position:fixed;
+        left:5%;
+        right:5%;
+        font-size:1.2em;
+        padding:0.3em;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+        display: block;
+    }
+    
+    #minibar > ul{
+        list-style-type: none;
+        margin: auto;
+        display:inline;
+    }
+    
+    #minibar > ul > li{
+        margin: 0px 1em;
+        float:left;
+        display: block;
+    }
+    
+}
+
+/*-----------------------Computers -------------------------*/
+
+@media only screen and (min-width:600px){
+    #minibar{
+        position:fixed;
+        background-color: rgb(43, 43, 43);
+        color:white;
+        width:30%;
+        position:fixed;
+        left:35%;
+        right:35%;
+        font-size:1.7em;
+        padding:0.3em;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+    }
+    
+    #minibar > ul{
+        list-style-type: none;
+        margin: auto;
+}
+    
+    #minibar > ul > li{
+        margin: 0px 12px;
+        float:left;
+        display: block;
+    }
+    
+}

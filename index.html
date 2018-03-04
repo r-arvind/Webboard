@@ -6,8 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="index.css" type="text/css" rel="stylesheet">
     <title>WebBoard</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 </head>
 <body>
+        <div id="minibar">
+            <ul>
+           <li> <span onclick = "clearScreen()"><i class="fas fa-trash-alt"></i></span></li>
+           <li> <span onclick = "undo()"><i class="fas fa-undo-alt"></i></span></li>
+           <li> <span onclick = "redo()"><i class="fas fa-redo-alt"></i></span></li>
+           <li> <span onclick = "pencil()"><i class="fas fa-pencil-alt"></i></span></li>
+           <li> <span onclick = "eraser()"><i class="fas fa-eraser"></i></span></li>
+           <li> <span onclick = "colorfill()"><i class="fas fa-tint"></i></span></li>
+        </ul>    
+        </div>
         <canvas id="mycanvas">Your Browser Does Not Support WebBoard</canvas>
 </body>
 <script src="canvas.js"></script>

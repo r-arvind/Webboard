@@ -40,7 +40,7 @@ body{
     }
     
     #minibar > ul > li{
-        margin: 0px 1em;
+        margin: 0px 0.6em;
         float:left;
         display: block;
     }

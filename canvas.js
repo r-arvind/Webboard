@@ -130,9 +130,6 @@ function init() {
   canvas.addEventListener('mousedown',dragStartMouse);
   canvas.addEventListener('mouseup',dragStopMouse);
   canvas.addEventListener('mousemove',dragMouse);
-  //default colors
-  document.getElementById('pick').value = '#000000'
-
 }
 
 //adding all of them to the html on load
@@ -156,12 +153,12 @@ function clearScreen(){
 
 //Eraser
 function eraser(){
-  attribute.color = '#ffffff'
+  attribute.color = '#ffffff';
 }
 
 //color picker
-function pick(){
-  attribute.color = document.getElementById('pick').value;
+function pick(){ 
+  return document.getElementById('pick').value;
 }
 
 //Pencil
@@ -171,8 +168,8 @@ function pencil(){
 
 //ColorFill
 function colorfill(){
-    attribute.color = pick();
-    canvas.addEventListener('onclick',context.fillRect(0,0,canvas.width,canvas.height,attribute.color));
+  attribute.color = pick();
+  context.fillRect(0,0,canvas.width,canvas.height,pick());
 }
 
 

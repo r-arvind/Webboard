@@ -8,7 +8,9 @@
     <title>WebBoard</title>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 </head>
-<body>
+<body onload="loader()" style="margin:0;">
+        
+        <div id="loader"></div>
         <div id="minibar">
             <ul>
            <li onclick = "clearScreen()"> <span><i class="fas fa-trash-alt"></i></span></li>
@@ -23,4 +25,6 @@
         <canvas id="mycanvas">Your Browser Does Not Support WebBoard</canvas>
 </body>
 <script src="canvas.js"></script>
+<script src="loader.js"></script>
+        
 </html>

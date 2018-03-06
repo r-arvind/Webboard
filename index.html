@@ -11,13 +11,14 @@
 <body>
         <div id="minibar">
             <ul>
-           <li> <span onclick = "clearScreen()"><i class="fas fa-trash-alt"></i></span></li>
-           <li> <span onclick = "undo()"><i class="fas fa-undo-alt"></i></span></li>
-           <li> <span onclick = "redo()"><i class="fas fa-redo-alt"></i></span></li>
-           <li> <span onclick = "pencil()"><i class="fas fa-pencil-alt"></i></span></li>
-           <li> <span onclick = "eraser()"><i class="fas fa-eraser"></i></span></li>
-           <li> <span onclick = "colorfill()"><i class="fas fa-tint"></i></span></li>
-        </ul>    
+           <li onclick = "clearScreen()"> <span><i class="fas fa-trash-alt"></i></span></li>
+           <li onclick = "undo()"> <span><i class="fas fa-undo-alt"></i></span></li>
+           <li onclick = "redo()"> <span><i class="fas fa-redo-alt"></i></span></li>
+           <li onclick = "pencil()"> <span><i class="fas fa-pencil-alt"></i></span></li>
+           <li onclick = "eraser()"> <span><i class="fas fa-eraser"></i></span></li>
+           <li onclick = "colorfill()"> <span><i class="fas fa-tint"></i></span></li>
+           <li onchange = "pick()"> <span><input id="pick" type="color" value="rgb(0,0,0)"></span></li>
+        </ul>
         </div>
         <canvas id="mycanvas">Your Browser Does Not Support WebBoard</canvas>
 </body>

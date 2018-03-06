@@ -12,10 +12,10 @@ canvas.height = window.innerHeight;
 //the attributes of the pen
 
 attribute = {
-  width:5,                            //width of ink
-  color:'rgb(0,100,0)',                //color of ink
-  style: pen                         //style of ink [pen,calligraphy]
-}
+  width:5,                         //width of ink
+  color:'#000000',                //color of ink
+  style: pen                     //style of ink [pen,calligraphy]
+};
 
 //variable initializations (dragging tells the state of pen)(startlocation stores the location of mouse click)
 
@@ -130,11 +130,18 @@ function init() {
   canvas.addEventListener('mousedown',dragStartMouse);
   canvas.addEventListener('mouseup',dragStopMouse);
   canvas.addEventListener('mousemove',dragMouse);
-  window.open(fullscreen=yes);
+  //default colors
+  document.getElementById('pick').value = '#000000'
+
 }
 
 //adding all of them to the html on load
-window.addEventListener('load',init)
+window.addEventListener('load',init);
+
+window.addEventListener('resize',function(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 
 
 
@@ -149,24 +156,23 @@ function clearScreen(){
 
 //Eraser
 function eraser(){
-  attribute.prevWidth = attribute.width;
-  attribute.prevColor = attribute.color
-  attribute.width = 20;
-  attribute.color = 'rgb(256,256,256)';
+  attribute.color = '#ffffff'
+}
+
+//color picker
+function pick(){
+  attribute.color = document.getElementById('pick').value;
 }
 
 //Pencil
 function pencil(){
-  attribute.width = attribute.prevWidth;
-  attribute.color = attribute.prevColor;
-  if(attribute.color == 'rgb(256,256,256)'){
-    attribute.color = 'rgb(0,0,0)';
-  }
-  delete attribute.prevColor;
-  delete attribute.prevWidth;
+  attribute.color = pick();
 }
 
 //ColorFill
 function colorfill(){
-  canvas.addEventListener('onclick',context.fillRect(0,0,canvas.width,canvas.height,attribute.color));
+    attribute.color = pick();
+    canvas.addEventListener('onclick',context.fillRect(0,0,canvas.width,canvas.height,attribute.color));
 }
+
+

@@ -9,10 +9,11 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 
+
 //the attributes of the pen
 
 attribute = {
-  width:5,                         //width of ink
+  width:10,                         //width of ink
   color:'#000000',                //color of ink
   style: pen                     //style of ink [pen,calligraphy]
 };
@@ -136,9 +137,26 @@ function init() {
 window.addEventListener('load',init);
 
 window.addEventListener('resize',function(){
+  //A copy of the canvas in memory
+/*
+  var MemCanvas = document.createElement('canvas');
+  var MemCtx = MemCanvas.getContext('2d');
+  MemCanvas.width = canvas.width;
+  MemCanvas.height =canvas.height;
+  MemCtx.drawImage(canvas, 0, 0);
+  var widthRatio = window.innerWidth/canvas.width;
+  var heightRatio = window.innerHeight/canvas.height;
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-});
+  MemCtx.scale(widthRatio, heightRatio);
+  context.drawImage(MemCanvas, 0, 0);*/
+
+  var image = context.getImageData(0,0,canvas.width,canvas.height);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  context.putImageData(image,0,0);
+
+}); 
 
 
 
@@ -158,6 +176,7 @@ function eraser(){
 
 //color picker
 function pick(){ 
+  attribute.color = document.getElementById('pick').value;
   return document.getElementById('pick').value;
 }
 
@@ -171,5 +190,14 @@ function colorfill(){
   attribute.color = pick();
   context.fillRect(0,0,canvas.width,canvas.height,pick());
 }
+
+//saving the image
+function save(){
+  var data = canvas.toDataURL();
+  window.open(data,'_blank','location=0,menubar=0');
+}
+
+
+
 
 

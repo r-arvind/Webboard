@@ -1,5 +1,9 @@
 # WEBBOARD - Whiteboard for Web
 
-## A simple drawing surface made using HTML5 Canvas and JS.
+A Drawing Surface made by simple application of HTML5 Canvas.
 
-# Still Under Construction
+## Features
+* Multiple Pen Colors
+* Save your Images offline and share it with other!
+* Supports all types of devices ranging from Computer to Mobile Phones.
+

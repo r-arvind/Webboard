@@ -2,6 +2,9 @@
 
 A Drawing Surface made by simple application of HTML5 Canvas. [Check it Out](https://r-arvind.github.io/Webboard)
 
+
+![Webboard Sample](./css/goku.png =100x20)
+
 ## Features
 * Multiple Pen Colors
 * Save your Images offline and share it with other!

@@ -51,6 +51,10 @@ li{
     width: 30px;
 }
 
+a{
+    text-decoration: none;
+    color: inherit;
+}
 
 /*--------------------------------- Loader ------------------------------*/
 

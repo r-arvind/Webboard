@@ -192,11 +192,10 @@ function colorfill(){
 }
 
 //saving the image
-function save(){
-  var data = canvas.toDataURL();
-  window.open(data,'_blank','location=0,menubar=0');
+function save(elem){
+  elem.href = canvas.toDataURL();
+  elem.download = "mypainting.png";
 }
-
 
 
 

@@ -9,21 +9,42 @@
     <title>WebBoard</title>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 </head>
+
 <body onload="loader()" style="margin:0;">
         
         <div id="loader"></div>
         <div id="minibar">
             <ul>
-           <li onclick = "clearScreen()"> <span><i class="fas fa-trash-alt"></i></span></li>
-           <li onclick = "undo()"> <span><i class="fas fa-undo-alt"></i></span></li>
-           <li onclick = "redo()"> <span><i class="fas fa-redo-alt"></i></span></li>
-           <li onclick = "pencil()"> <span><i class="fas fa-pencil-alt"></i></span></li>
-           <li onclick = "eraser()"> <span><i class="fas fa-eraser"></i></span></li>
-           <li onclick = "colorfill()"> <span><i class="fas fa-tint"></i></span></li>
-           <li onchange = "pick()"> <span><input id="pick" type="color" value="rgb(0,0,0)"></span></li>
-           <li> <a onclick="save(this)"><span><i class="fas fa-download"></i></span></a></li>
+            
+            <li onclick = "clearScreen()"> <span><i class="fas fa-trash-alt"></i></span></li>
+
+            <li onclick = "undo()"> <span><i class="fas fa-undo-alt"></i></span></li>
+
+            <li onclick = "redo()"> <span><i class="fas fa-redo-alt"></i></span></li>
+
+            <li onclick = "pencil()"> <span><i class="fas fa-pencil-alt"></i></span></li>
+
+            <li onclick = "eraser()"> <span><i class="fas fa-eraser"></i></span></li>
+
+            <li onclick = "colorfill()"> <span><i class="fas fa-tint"></i></span></li>
+
+            <li onchange = "pick()"> <span><input id="pick" type="color" value="rgb(0,0,0)"></span></li>
+
+            <li><a onclick="save(this)"><span><i class="fas fa-download"></i></span></a></li>
+<!--
+            <li>  
+                <div class="dropdown"><i class="fas fa-font"></i>
+                    <div class="dropdown-content">
+                        <div class="drop-item" onclick="writeText(prompt('sdasdsd'),'stroke');"><img src="css/text1.png" width="26" height="26"></div>
+                        <div class="drop-item" onclick="writeText(prompt('sdasdsd'),'fill');"><img src="css/text2.png" width="26" height="26"></div>
+                    </div>
+                </div>
+            </li>
+            <li><a onclick="editImage()"><span><i class="fas fa-images"></i></i></span></a></li>
+        -->
         </ul>
         </div>
+
         <canvas id="mycanvas">Your Browser Does Not Support WebBoard</canvas>
 </body>
 <script src="js/canvas.js"></script>

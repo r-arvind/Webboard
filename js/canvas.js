@@ -4,18 +4,19 @@ canvas = document.getElementById('mycanvas');
 context = canvas.getContext('2d');
 
 //setting height and width of the canvas
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-
+//making the background white (initially its transparent)
+context.fillStyle = 'white';
+context.fillRect(0,0,canvas.width,canvas.height);
 
 //the attributes of the pen
 
 attribute = {
   width:10,                         //width of ink
-  color:'#000000',                //color of ink
-  style: pen                     //style of ink [pen,calligraphy]
+  color:'#0f0f0f',                //color of ink
+  style: pen                    //style of ink [pen,calligraphy]
 };
 
 //variable initializations (dragging tells the state of pen)(startlocation stores the location of mouse click)
@@ -56,6 +57,7 @@ function pen(position){
 function getpositionmouse(event){
   var x = event.clientX - canvas.getBoundingClientRect().left;
   var y = event.clientY - canvas.getBoundingClientRect().top;
+  console.log(x +' : ' + y);
   return {x:x,y:y};
 }
 
@@ -137,23 +139,12 @@ function init() {
 window.addEventListener('load',init);
 
 window.addEventListener('resize',function(){
-  //A copy of the canvas in memory
-/*
-  var MemCanvas = document.createElement('canvas');
-  var MemCtx = MemCanvas.getContext('2d');
-  MemCanvas.width = canvas.width;
-  MemCanvas.height =canvas.height;
-  MemCtx.drawImage(canvas, 0, 0);
-  var widthRatio = window.innerWidth/canvas.width;
-  var heightRatio = window.innerHeight/canvas.height;
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  MemCtx.scale(widthRatio, heightRatio);
-  context.drawImage(MemCanvas, 0, 0);*/
 
   var image = context.getImageData(0,0,canvas.width,canvas.height);
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  context.fillStyle = 'white';
+  context.fillRect(0,0,canvas.width,canvas.height);
   context.putImageData(image,0,0);
 
 }); 
@@ -165,9 +156,9 @@ window.addEventListener('resize',function(){
 
 //function for erasing the whole canvas
 function clearScreen(){
-  context.clearRect(0,0,canvas.width,canvas.height);
+  context.fillStyle = 'white';
+  context.fillRect(0,0,canvas.width,canvas.height);
 }
-
 
 //Eraser
 function eraser(){
@@ -188,7 +179,8 @@ function pencil(){
 //ColorFill
 function colorfill(){
   attribute.color = pick();
-  context.fillRect(0,0,canvas.width,canvas.height,pick());
+  context.fillStyle = pick();
+  context.fillRect(0,0,canvas.width,canvas.height);
 }
 
 //saving the image
@@ -196,6 +188,34 @@ function save(elem){
   elem.href = canvas.toDataURL();
   elem.download = "mypainting.png";
 }
+
+
+/*
+function writeText(text,type){
+  context.font = '48px Helvetica';
+  context.fillStyle = pick();
+  context.strokeStyle = pick();
+  if(type == 'fill'){
+
+    context.fillText(text, 50,50);
+
+  }
+  if(type == 'stroke'){
+    context.lineWidth = 1;
+  context.strokeText(text, 50, 50);
+  context.lineWidth = attribute.width;
+  }
+  
+}
+
+function editImage(){
+  var img = new Image();
+  img.src = 'me@dewas2.jpeg';
+  context.drawImage(img,0,0);
+}
+*/
+
+
 
 
 

@@ -189,22 +189,10 @@ function colorfill(){
   context.fillRect(0,0,canvas.width,canvas.height);
 }
 
-function save(){
-//  var dataURL = canvas.toDataURL();
-
-  for (var k in pages){
-    var dataURL = pages[k];
-    $.ajax({
-      type: "POST",
-      url: "/save",
-      data: { 
-         imgBase64: dataURL,
-         pageno: k
-      }
-    }).done(function() {
-      console.log('saved'); 
-    });
-  }
+function save(elem){
+  var dataURL = canvas.toDataURL();
+  elem.download = 'page.png';
+  elem.href = dataURL;
 
 }
 

@@ -19,6 +19,12 @@ attribute = {
   style: pen                    //style of ink [pen,calligraphy]
 };
 
+
+//
+pages = {
+
+}
+
 //variable initializations (dragging tells the state of pen)(startlocation stores the location of mouse click)
 
 var dragging = false;
@@ -178,19 +184,33 @@ function pencil(){
 
 //ColorFill
 function colorfill(){
-  attribute.color = pick();
-  context.fillStyle = pick();
+  //attribute.color = pick();
+  context.fillStyle = attribute.color;
   context.fillRect(0,0,canvas.width,canvas.height);
 }
 
-//saving the image
-function save(elem){
-  elem.href = canvas.toDataURL();
-  elem.download = "mypainting.png";
+function save(){
+//  var dataURL = canvas.toDataURL();
+
+  for (var k in pages){
+    var dataURL = pages[k];
+    $.ajax({
+      type: "POST",
+      url: "/save",
+      data: { 
+         imgBase64: dataURL,
+         pageno: k
+      }
+    }).done(function() {
+      console.log('saved'); 
+    });
+  }
+
 }
 
 
 /*
+
 function writeText(text,type){
   context.font = '48px Helvetica';
   context.fillStyle = pick();
@@ -207,13 +227,118 @@ function writeText(text,type){
   }
   
 }
-
+*/
+/*
 function editImage(){
   var img = new Image();
   img.src = 'me@dewas2.jpeg';
   context.drawImage(img,0,0);
+}*/
+
+
+///////////////////////////Functions for changing pages/////////////////////////////////
+function getPageNo(){
+  var classname = canvas.className;
+  var pageno = classname.substr(6);
+  return pageno;
 }
-*/
+
+function dataToCanvas(url){
+
+  var img = new Image;
+  img.src = url;
+  img.onload = function(){
+    context.drawImage(img,0,0);
+  };
+}
+
+function savepage(){
+  var page = getPageNo();
+  pages[page] = canvas.toDataURL();
+}
+
+function nextPage(){
+  var pageno = getPageNo();
+  var next = (Number(pageno) + 1).toString();
+  savepage();
+  canvas.className = 'canvas' + next;
+  if(next in pages){
+    context.fillStyle = 'white';
+    context.fillRect(0,0,canvas.width,canvas.height);
+    dataToCanvas(pages[next]);
+  }
+  else{
+    context.fillStyle = 'white';
+    context.fillRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+function prevPage(){
+  var pageno = getPageNo();
+  var prev = (Number(pageno) - 1).toString();
+  if(prev>0){
+    savepage();
+    canvas.className = 'canvas' + prev;
+    context.fillStyle = 'white';
+    context.fillRect(0,0,canvas.width,canvas.height);
+    dataToCanvas(pages[prev]);
+  }
+}
+
+
+function changePensize(a)
+{
+  attribute.width = a;
+}
+
+//////////////////////// different colors  and modal//////////////////////////////
+
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "None";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function changecolor(a)
+{
+  attribute.color = a;
+  modal.style.display = "none";
+     
+}
+
+/////////////////////////// snackbar ///////////////////////////////////////////
+function snackbar() {
+  // Get the snackbar DIV
+  var x = document.getElementById("snackbar");
+
+  // Add the "show" class to DIV
+  x.className = "show";
+
+  // After 3 seconds, remove the show class from DIV
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+} 
+
 
 
 

@@ -1,6 +1,6 @@
 # WEBBOARD - Whiteboard for Web
 
-A Drawing Surface made by simple application of HTML5 Canvas. [Check it Out](https://r-arvind.github.io/Webboard)
+A Drawing Surface made by simple application of HTML5 Canvas. [Check it Out](https://ronak66.github.io/Webboard)
 
 
 ![Webboard Sample](./css/goku.png)

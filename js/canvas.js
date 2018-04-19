@@ -142,6 +142,8 @@ function init() {
   canvas.addEventListener('mousedown',dragStartMouse);
   canvas.addEventListener('mouseup',dragStopMouse);
   canvas.addEventListener('mousemove',dragMouse);
+  //set slider
+  setSlider(attribute.width);
 }
 
 //adding all of them to the html on load
@@ -168,13 +170,17 @@ window.addEventListener('resize',function(){
 function clearScreen(){
   context.fillStyle = 'white';
   context.fillRect(0,0,canvas.width,canvas.height);
+  if(canvas.height > window.innerHeight){
+    canvas.height = window.innerHeight;
+  }
 }
 
 //Eraser
 function eraser(){
   attribute['active'] = 'eraser';
-  setSlider(attribute.eraseWidth);
+  sliderMaxMin(10,50);
   attribute.width = attribute.eraseWidth;
+  setSlider(attribute.eraseWidth);
   if(attribute.color !== "#ffffff")
     prev_color = attribute.color;
   attribute.color = '#ffffff';
@@ -183,8 +189,9 @@ function eraser(){
 //Pencil
 function pencil(){
   attribute['active'] = 'pencil';
-  setSlider(attribute.width);
+  sliderMaxMin(1,30);
   attribute.width = attribute.pencilWidth;
+  setSlider(attribute.width);
   attribute.color = prev_color;
   attribute.color = pick();
 }
@@ -217,6 +224,12 @@ function setSlider(val){
 function getSlider(){
   var slider = document.querySelector('.slider');
   return slider.value;
+}
+
+function sliderMaxMin(min,max){
+  var slider = document.querySelector('.slider');
+  slider.max = max;
+  slider.min = min;
 }
 
 function changeObjSize(){
@@ -336,14 +349,14 @@ function changecolor(a)
 function setPageNo(page, total) {
   savepage();
   var x = document.getElementsByClassName("page")[0];
-  x.innerHTML = (page.toString() + '/' + ((total.toString())));
+  x.innerHTML = 'Page ' +(page.toString() + ' of ' + ((total.toString())));
 }
 
 
 function extendPage(){
   var image = context.getImageData(0,0,canvas.width,canvas.height);
-  canvas.width = window.innerWidth;
-  canvas.height = 2 * window.innerHeight;
+  canvas.width = canvas.width;
+  canvas.height = canvas.height + window.innerHeight;
   context.fillStyle = 'white';
   context.fillRect(0,0,canvas.width,canvas.height);
   context.putImageData(image,0,0);

@@ -182,9 +182,7 @@ a{
     
 }
 
-
 .slider {
-    -webkit-appearance: none;
     width: 90%;
     height: 15px;
     border-radius: 5px;  

@@ -14,7 +14,7 @@ context.fillRect(0,0,canvas.width,canvas.height);
 //the attributes of the pen
 
 attribute = {
-  width:10,
+  width:7,
   pencilWidth: 10,
   eraseWidth: 30,                //width of ink
   color:'#0f0f0f',              //color of ink
@@ -362,4 +362,12 @@ function extendPage(){
   context.putImageData(image,0,0);
 }
 
+function activateModal(){
+  document.querySelector('.modal').classList.add('is-active');
+}
+
+function closeModal(){
+  document.querySelector('.modal').classList.remove('is-active');
+  
+}
 

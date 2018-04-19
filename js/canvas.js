@@ -18,7 +18,7 @@ attribute = {
   pencilWidth: 10,
   eraseWidth: 30,                //width of ink
   color:'#0f0f0f',              //color of ink
-  style: pen,
+  style: calligraphy,
   active: 'pencil'                   //style of ink [pen,calligraphy]
 };
 

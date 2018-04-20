@@ -17,3 +17,13 @@ The project is still in development phase. Lot more features yet to come! Some o
 * Adding text to your Drawing.
 * Uploading Images and Drawing on them.
 * Preset Shapes (circles, rectangles, lines, curves etc)
+
+## Contributors
+
+### Ronak Doshi
+* [https://github.com/ronak66](https://github.com/ronak66)
+* [https://ronak66.github.io](https://ronak66.github.io)
+
+### Nithin Raj
+* [https://github.com/nithinr07](https://github.com/nithinr07)
+* [https://nithinr07.github.io](https://nithinr07.github.io)

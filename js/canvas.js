@@ -14,19 +14,20 @@ context.fillRect(0,0,canvas.width,canvas.height);
 //the attributes of the pen
 
 attribute = {
-  width:10,                         //width of ink
-  color:'#0f0f0f',                //color of ink
-  style: pen                    //style of ink [pen,calligraphy]
+  width:7,
+  pencilWidth: 10,
+  eraseWidth: 30,                //width of ink
+  color:'#0f0f0f',              //color of ink
+  style: calligraphy,
+  active: 'pencil'                   //style of ink [pen,calligraphy]
 };
 
 
-//
-pages = {
-
-}
+//saves the pages
+pages = {};
 
 //variable initializations (dragging tells the state of pen)(startlocation stores the location of mouse click)
-
+var prev_color = "";
 var dragging = false;
 var startLocation;
 
@@ -34,6 +35,7 @@ var startLocation;
 
 function calligraphy(position){
   context.strokeStyle = attribute.color;
+  context.lineJoin = context.lineCap = 'round';  
   context.lineWidth = attribute.width;
   context.beginPath();
   context.moveTo(startLocation.x,startLocation.y);
@@ -47,7 +49,8 @@ function calligraphy(position){
 
 function pen(position){
 
-  context.strokeStyle = attribute.color;  
+  context.strokeStyle = attribute.color;
+  context.lineJoin = context.lineCap = 'round';  
   context.fillStyle = attribute.color;
   context.lineWidth = attribute.width;
   context.lineTo(position.x,position.y);
@@ -139,6 +142,8 @@ function init() {
   canvas.addEventListener('mousedown',dragStartMouse);
   canvas.addEventListener('mouseup',dragStopMouse);
   canvas.addEventListener('mousemove',dragMouse);
+  //set slider
+  setSlider(attribute.width);
 }
 
 //adding all of them to the html on load
@@ -157,6 +162,7 @@ window.addEventListener('resize',function(){
 
 
 
+
 //////////////////////    Miscellaneous Functions    ///////////////////////////
 
 
@@ -164,21 +170,29 @@ window.addEventListener('resize',function(){
 function clearScreen(){
   context.fillStyle = 'white';
   context.fillRect(0,0,canvas.width,canvas.height);
+  if(canvas.height > window.innerHeight){
+    canvas.height = window.innerHeight;
+  }
 }
 
 //Eraser
 function eraser(){
+  attribute['active'] = 'eraser';
+  sliderMaxMin(10,50);
+  attribute.width = attribute.eraseWidth;
+  setSlider(attribute.eraseWidth);
+  if(attribute.color !== "#ffffff")
+    prev_color = attribute.color;
   attribute.color = '#ffffff';
-}
-
-//color picker
-function pick(){ 
-  attribute.color = document.getElementById('pick').value;
-  return document.getElementById('pick').value;
 }
 
 //Pencil
 function pencil(){
+  attribute['active'] = 'pencil';
+  sliderMaxMin(1,30);
+  attribute.width = attribute.pencilWidth;
+  setSlider(attribute.width);
+  attribute.color = prev_color;
   attribute.color = pick();
 }
 
@@ -189,48 +203,57 @@ function colorfill(){
   context.fillRect(0,0,canvas.width,canvas.height);
 }
 
-function save(elem){
-  var dataURL = canvas.toDataURL();
-  elem.download = 'page.png';
-  elem.href = dataURL;
-
+//save the webboard as pdf
+function save(){
+  savepage();
+  var pdf = new jsPDF({orientation:'landscape', unit: 'mm',format:'a3'});
+  var key1 = 0;
+  for (key in pages){
+    var dataURL = pages[key];
+    pdf.addImage(dataURL, 'JPEG',0,30);
+    pdf.addPage();
+  }
+  pdf.save('webboard.pdf');
 }
 
-
-/*
-
-function writeText(text,type){
-  context.font = '48px Helvetica';
-  context.fillStyle = pick();
-  context.strokeStyle = pick();
-  if(type == 'fill'){
-
-    context.fillText(text, 50,50);
-
-  }
-  if(type == 'stroke'){
-    context.lineWidth = 1;
-  context.strokeText(text, 50, 50);
-  context.lineWidth = attribute.width;
-  }
-  
+function setSlider(val){
+  var slider = document.querySelector('.slider');
+  slider.value = val;
 }
-*/
-/*
-function editImage(){
-  var img = new Image();
-  img.src = 'me@dewas2.jpeg';
-  context.drawImage(img,0,0);
-}*/
+
+function getSlider(){
+  var slider = document.querySelector('.slider');
+  return slider.value;
+}
+
+function sliderMaxMin(min,max){
+  var slider = document.querySelector('.slider');
+  slider.max = max;
+  slider.min = min;
+}
+
+function changeObjSize(){
+  if(attribute['active'] === 'pencil'){
+    attribute.width = getSlider();
+    attribute.pencilWidth = getSlider();
+  }
+  if (attribute['active'] == 'eraser'){
+    attribute.eraseWidth = getSlider();
+    attribute.width = getSlider();
+  }
+}
 
 
 ///////////////////////////Functions for changing pages/////////////////////////////////
+
+//getting current page number
 function getPageNo(){
   var classname = canvas.className;
   var pageno = classname.substr(6);
   return pageno;
 }
 
+//converting dataurl to image and drawing image on canvas
 function dataToCanvas(url){
 
   var img = new Image;
@@ -240,11 +263,13 @@ function dataToCanvas(url){
   };
 }
 
+//saving a page in the dictionary
 function savepage(){
   var page = getPageNo();
   pages[page] = canvas.toDataURL();
 }
 
+//going to the next page
 function nextPage(){
   var pageno = getPageNo();
   var next = (Number(pageno) + 1).toString();
@@ -254,15 +279,19 @@ function nextPage(){
     context.fillStyle = 'white';
     context.fillRect(0,0,canvas.width,canvas.height);
     dataToCanvas(pages[next]);
+    setPageNo(next,total);
   }
   else{
     context.fillStyle = 'white';
     context.fillRect(0,0,canvas.width,canvas.height);
+    setPageNo(next,next);
   }
 }
 
+//going to the previous page
 function prevPage(){
   var pageno = getPageNo();
+  var total = Object.keys(pages).length;
   var prev = (Number(pageno) - 1).toString();
   if(prev>0){
     savepage();
@@ -270,6 +299,7 @@ function prevPage(){
     context.fillStyle = 'white';
     context.fillRect(0,0,canvas.width,canvas.height);
     dataToCanvas(pages[prev]);
+    setPageNo(prev,total);
   }
 }
 
@@ -310,26 +340,34 @@ window.onclick = function(event) {
 
 function changecolor(a)
 {
+  attribute['active'] = 'pencil';
   attribute.color = a;
   modal.style.display = "none";
      
 }
 
-/////////////////////////// snackbar ///////////////////////////////////////////
-function snackbar() {
-  // Get the snackbar DIV
-  var x = document.getElementById("snackbar");
-
-  // Add the "show" class to DIV
-  x.className = "show";
-
-  // After 3 seconds, remove the show class from DIV
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-} 
+function setPageNo(page, total) {
+  savepage();
+  var x = document.getElementsByClassName("page")[0];
+  x.innerHTML = 'Page ' +(page.toString() + ' of ' + ((total.toString())));
+}
 
 
+function extendPage(){
+  var image = context.getImageData(0,0,canvas.width,canvas.height);
+  canvas.width = canvas.width;
+  canvas.height = canvas.height + window.innerHeight;
+  context.fillStyle = 'white';
+  context.fillRect(0,0,canvas.width,canvas.height);
+  context.putImageData(image,0,0);
+}
 
+function activateModal(){
+  document.querySelector('.modal').classList.add('is-active');
+}
 
-
-
+function closeModal(){
+  document.querySelector('.modal').classList.remove('is-active');
+  
+}
 

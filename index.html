@@ -25,18 +25,13 @@
                 <span class="next-page" onclick = "nextPage()"><i class="far fa-caret-square-right"></i><p>Next</p></span>
             </li>
 
-            <li onclick="pencil();">
-                <span><i class="fas fa-pencil-alt"></i><p>Pen</p></span>
-                    <!--div class="dropdown-content">
-                        <div class="drop-item" onclick="changePensize(5)"><img src="css/20.jpg"></div>
-                        <div class="drop-item" onclick="changePensize(20)"><img src="css/40.jpeg"></div>
-                        <div class="drop-item" onclick="changePensize(30)"><img src="css/81.jpeg"></div>
-                    </div-->
+            <li onclick="pencil(this);">
+                <span><i class="fas fa-pencil-alt"></i></span><p>Pen</p>
             </li>
 
             <li style="margin-left: 0;"><span><input type="range" min="1" max="30" value="10" class="slider" oninput="changeObjSize();"><p>Size</p></span></li>
 
-            <li onclick = "eraser()" align="center"> <span><i class="fas fa-eraser"></i><p>Eraser</p></span></li>
+            <li onclick = "eraser(this)" align="center"> <span><i class="fas fa-eraser"></i><p>Eraser</p></span></li>
 
             <!--li onclick = "colorfill()"> <span><i class="fas fa-tint"></i></span></li-->
 

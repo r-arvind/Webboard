@@ -69,8 +69,10 @@ function pen(position){
 //using quadratic curves to make sharp edges smooth
 function bezier(position){
 
+  context.strokeStyle = attribute.color;
+  context.lineJoin = context.lineCap = 'round';  
+  context.fillStyle = attribute.color;
   context.lineWidth = attribute.width;
-  context.lineJoin = context.lineCap = 'round';
   function midPointBtw(p1, p2) {
     return {
       x: p1.x + (p2.x - p1.x) / 2,

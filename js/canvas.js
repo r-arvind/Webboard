@@ -78,7 +78,6 @@ function bezier(position){
       };
     }  
   points.push({ x: position.x, y: position.y });
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   var p1 = points[0];
   var p2 = points[1];
   context.beginPath();

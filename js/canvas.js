@@ -88,7 +88,7 @@ function bezier(position){
       p1 = points[i];
       p2 = points[i+1];
   }
-  context.lineTo(p1.x, p1.y);
+  context.moveTo(p1.x, p1.y);
   context.stroke();
   }
 
@@ -120,7 +120,7 @@ function dragStartMouse(event){
   dragging = true;
   startLocation = getpositionmouse(event);
 
-  if( attribute[style == bezier]){
+  if( attribute['style'] == bezier){
     points.push({ x: startLocation.x, y: startLocation.y });
   }
   else{

@@ -14,11 +14,11 @@ context.fillRect(0,0,canvas.width,canvas.height);
 //the attributes of the canvas
 
 attribute = {
-  width:7,
-  pencilWidth: 10,
+  width:4,
+  pencilWidth:4,
   eraseWidth: 30,                //width of ink
   color:'#0f0f0f',              //color of ink
-  style: bezier,
+  style: calligraphy,
   active: 'pencil'                   //style of ink [pen,calligraphy]
 };
 
@@ -80,6 +80,8 @@ function bezier(position){
       };
     }  
   points.push({ x: position.x, y: position.y });
+  context.fillStyle = 'white';
+  context.fillRect(0,0,canvas.width,canvas.height);
   var p1 = points[0];
   var p2 = points[1];
   context.beginPath();
@@ -90,7 +92,7 @@ function bezier(position){
       p1 = points[i];
       p2 = points[i+1];
   }
-  context.moveTo(p1.x, p1.y);
+  context.lineTo(p1.x, p1.y);
   context.stroke();
   }
 
@@ -187,6 +189,7 @@ function init() {
   //mouse events
   canvas.addEventListener('mousedown',dragStartMouse);
   canvas.addEventListener('mouseup',dragStopMouse);
+  canvas.addEventListener('mouseleave',dragStopMouse);
   canvas.addEventListener('mousemove',dragMouse);
   //set slider
   setSlider(attribute.width);

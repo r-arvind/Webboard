@@ -1,5 +1,4 @@
 //canvas element and 2-d context
-
 canvas = document.getElementById('mycanvas');
 context = canvas.getContext('2d');
 
@@ -11,11 +10,12 @@ canvas.height = window.innerHeight;
 context.fillStyle = 'white';
 context.fillRect(0,0,canvas.width,canvas.height);
 
-//the attributes of the pen
+
+//the attributes of the canvas
 
 attribute = {
-  width:7,
-  pencilWidth: 10,
+  width:4,
+  pencilWidth:4,
   eraseWidth: 30,                //width of ink
   color:'#0f0f0f',              //color of ink
   style: calligraphy,
@@ -23,16 +23,21 @@ attribute = {
 };
 
 
-//saves the pages
+//an object for saving the pages
 pages = {};
 
-//variable initializations (dragging tells the state of pen)(startlocation stores the location of mouse click)
-var prev_color = "";
-var dragging = false;
-var startLocation;
+//variable initializations
+var prev_color = "";      //when a person changes from pen to eraser, this variable remembers the pen color
+var dragging = false;     //this variable is true when mouse is being dragged
+var startLocation;        //when momuse button is clicked, this object stores the position
+var points = [ ];        //list of points for drawing quadratic curves
+
+
+
+///////////////////////    Various Canvas algorithms for the writing part  //////////////////////////////
+
 
 // calligraphic pen like style (simple strokes of line)
-
 function calligraphy(position){
   context.strokeStyle = attribute.color;
   context.lineJoin = context.lineCap = 'round';  
@@ -45,8 +50,7 @@ function calligraphy(position){
   startLocation = position;
 }
 
-//simple pen style (continuous dots)
-
+//simple pen style (continuous dots joined by lines)
 function pen(position){
 
   context.strokeStyle = attribute.color;
@@ -61,6 +65,37 @@ function pen(position){
   context.beginPath();
   context.moveTo(position.x,position.y)
 }
+
+//using quadratic curves to make sharp edges smooth
+function bezier(position){
+
+  context.strokeStyle = attribute.color;
+  context.lineJoin = context.lineCap = 'round';  
+  context.fillStyle = attribute.color;
+  context.lineWidth = attribute.width;
+  function midPointBtw(p1, p2) {
+    return {
+      x: p1.x + (p2.x - p1.x) / 2,
+      y: p1.y + (p2.y - p1.y) / 2
+      };
+    }  
+  points.push({ x: position.x, y: position.y });
+  context.fillStyle = 'white';
+  context.fillRect(0,0,canvas.width,canvas.height);
+  var p1 = points[0];
+  var p2 = points[1];
+  context.beginPath();
+  context.moveTo(p1.x, p1.y);
+  for (var i = 1, len = points.length; i < len; i++) {
+      var midPoint = midPointBtw(p1, p2);
+      context.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+      p1 = points[i];
+      p2 = points[i+1];
+  }
+  context.lineTo(p1.x, p1.y);
+  context.stroke();
+  }
+
 
 //function for getting the location of mouse pointer
 function getpositionmouse(event){
@@ -88,8 +123,15 @@ function getpositiontouch(event) {
 function dragStartMouse(event){
   dragging = true;
   startLocation = getpositionmouse(event);
-  attribute.style(startLocation);
+
+  if( attribute['style'] == bezier){
+    points.push({ x: startLocation.x, y: startLocation.y });
+  }
+  else{
+    attribute.style(startLocation);
+  }
 }
+
 //draws the line as the mouse gets dragged
 function dragMouse(event){
   var position;
@@ -98,10 +140,16 @@ function dragMouse(event){
     attribute.style(position);
   }
 }
+
 //stops the drawing when the mouse is lifted
 function dragStopMouse(event){
   dragging = false;
-  context.beginPath();
+  if(attribute['style'] == bezier){
+    points.length = 0;
+  }
+  else{
+    context.beginPath();
+  }
 }
 
 
@@ -141,6 +189,7 @@ function init() {
   //mouse events
   canvas.addEventListener('mousedown',dragStartMouse);
   canvas.addEventListener('mouseup',dragStopMouse);
+  canvas.addEventListener('mouseleave',dragStopMouse);
   canvas.addEventListener('mousemove',dragMouse);
   //set slider
   setSlider(attribute.width);
@@ -176,8 +225,10 @@ function clearScreen(){
 }
 
 //Eraser
-function eraser(){
+function eraser(elem){
   attribute['active'] = 'eraser';
+  removeActive();
+  elem.classList.add('is-active');
   sliderMaxMin(10,50);
   attribute.width = attribute.eraseWidth;
   setSlider(attribute.eraseWidth);
@@ -187,8 +238,11 @@ function eraser(){
 }
 
 //Pencil
-function pencil(){
+function pencil(elem){
+
   attribute['active'] = 'pencil';
+  removeActive();
+  elem.classList.add('is-active');
   sliderMaxMin(1,30);
   attribute.width = attribute.pencilWidth;
   setSlider(attribute.width);
@@ -198,12 +252,11 @@ function pencil(){
 
 //ColorFill
 function colorfill(){
-  //attribute.color = pick();
   context.fillStyle = attribute.color;
   context.fillRect(0,0,canvas.width,canvas.height);
 }
 
-//save the webboard as pdf
+//Save the Webboard as pdf
 function save(){
   savepage();
   var pdf = new jsPDF({orientation:'landscape', unit: 'mm',format:'a3'});
@@ -243,6 +296,14 @@ function changeObjSize(){
   }
 }
 
+function removeActive(){
+  var active = Array.prototype.slice.call(document.querySelectorAll('.is-active'));
+  active.forEach(function(element){
+    if(element.classList.contains('is-active')){
+        element.classList.remove('is-active');
+    }
+});
+}
 
 ///////////////////////////Functions for changing pages/////////////////////////////////
 
@@ -272,6 +333,7 @@ function savepage(){
 //going to the next page
 function nextPage(){
   var pageno = getPageNo();
+  var total = Object.keys(pages).length;
   var next = (Number(pageno) + 1).toString();
   savepage();
   canvas.className = 'canvas' + next;
@@ -301,12 +363,6 @@ function prevPage(){
     dataToCanvas(pages[prev]);
     setPageNo(prev,total);
   }
-}
-
-
-function changePensize(a)
-{
-  attribute.width = a;
 }
 
 //////////////////////// different colors  and modal//////////////////////////////

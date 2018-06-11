@@ -1,12 +1,23 @@
-body{
-    margin:0px;
-    padding:0px;
-    overflow-x: hidden;
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+#sketch {
+
+	width:auto;
+    height:1000px;
+    /* background:red; */
+    overflow:hidden;
 }
 
-#mycanvas{
-    display: block;
-    cursor:crosshair;
+#tmp_canvas {
+    position: absolute;
+    left: 0px; right: 0;
+    bottom: 0; top: 0;
+    cursor: crosshair;
 }
 
 *{
@@ -16,19 +27,21 @@ body{
 }
 
 
-#minibar{
-    position:fixed;
+#minibar2{
+    /* position:relative; */
     background-color: rgb(43, 43, 43);
     color:white;
     font-size:1.7em;
-    height:100%;
+    height:1000px;
+    float: left;
     width:99px;
     margin: 0;
-    display: none;
+    /* display: block; */
     padding: 0.5em 0em 1em 0em;
-}    
-    
-#minibar > ul{
+    /* z-index:100; */
+}
+
+#minibar2 > ul{
     list-style-type: none;
     margin:0;
     padding:0;
@@ -114,23 +127,23 @@ background-color: white;
     -moz-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
   }
-  
+
   @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
   }
-  
+
   @-moz-keyframes spin {
     0% { -moz-transform: rotate(0deg); }
     100% { -moz-transform: rotate(360deg); }
   }
-  
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
-  
+
+
 /*-------------------------- color picker modal -----------------------------*/
 
 .modal {
@@ -153,14 +166,14 @@ background-color: white;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    
+
 }
 
 /*----------------------------- Range Slider ------------------------------------*/
 .slider {
     width: 90%;
     height: 15px;
-    border-radius: 5px;  
+    border-radius: 5px;
     background: #ffffff;
     outline: none;
     -moz-transition: 0.2s;
@@ -172,7 +185,7 @@ background-color: white;
 .slider::-webkit-slider-thumb {
     width: 10px;
     height: 10px;
-    border-radius: 30%; 
+    border-radius: 30%;
     background: rgb(43, 43, 43);
     cursor: pointer;
 }
@@ -180,7 +193,7 @@ background-color: white;
 .slider::-moz-range-thumb {
     width: 10px;
     height: 10px;
-    border-radius: 30%; 
+    border-radius: 30%;
     background: rgb(43, 43, 43);
     cursor: pointer;
 }

@@ -27,3 +27,7 @@ The project is still in development phase. Lot more features yet to come! Some o
 ### Nithin Raj
 * [https://github.com/nithinr07](https://github.com/nithinr07)
 * [https://nithinr07.github.io](https://nithinr07.github.io)
+
+### R Arivnd
+* [https://github.com/r-arvind](https://github.com/r-arvind)
+* [https://r-arvind.github.io](https://r-arvind.github.io)

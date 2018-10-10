@@ -1,12 +1,18 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body{
     margin:0px;
     padding:0px;
     overflow-x: hidden;
+    background-color: #282828;
 }
 
 #mycanvas{
     display: block;
     cursor:crosshair;
+    margin-left: 70px;
 }
 
 *{
@@ -15,51 +21,39 @@ body{
     -webkit-box-sizing: border-box;
 }
 
-
 #minibar{
     position:fixed;
-    background-color: rgb(43, 43, 43);
-    color:white;
-    font-size:1.7em;
-    height:100%;
-    width:99px;
-    margin: 0;
+    background-color: #333333;
+    color: #F0F0F0;
+    font-size: 0.62em;
+    width: 70px;
     display: none;
-    padding: 0.5em 0em 1em 0em;
-}    
-    
+    padding: 1em 0;
+}
+ 
 #minibar > ul{
     list-style-type: none;
     margin:0;
     padding:0;
-    }
-
-li{
-    text-align:center;
-    padding:0.3em;
+}
+   
+#minibar li{
+    text-align: center;
+    padding: 1.5em 0.5em;
     position: relative;
-    margin:auto 0.4em;
-    display:block;
-    cursor: pointer;    transition:0.3s;
-
-}
-span{
-    transition:0.3s;
+    display: block;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-span:hover{
-    transform: scale(1.1);
+#minibar i{
+    font-size: 2.2em;
+    margin-bottom: 0.25em;
+    display: block;
 }
 
-li:hover{
-    transform: scale(1.1);
-}
-
-p{
-    font-size:0.35em;
-}
-.prev-page,.next-page{
-    display:inline-block;
+#minibar li:hover {
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
 .page{
@@ -70,7 +64,7 @@ p{
     bottom:0;
     padding:0.5em;
     margin:1em;
-    background-color: rgb(43, 43, 43);
+    background-color: #333333;
     opacity: 0.5;
     transition:0.5s;
     display: none;
@@ -94,8 +88,8 @@ a{
 }
 
 .is-active{
-color:black;
-background-color: white;
+    color: #333333;
+    background-color: white;
 }
 /*--------------------------------- Loader ------------------------------*/
 
@@ -152,8 +146,14 @@ background-color: white;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    
+    max-width: 430px; 
+}
+
+.color-box {
+    display: inline-block;
+    width: 125px;
+    height: 125px;
+    margin: 0.1em;
 }
 
 /*----------------------------- Range Slider ------------------------------------*/

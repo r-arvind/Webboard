@@ -101,7 +101,6 @@ function bezier(position){
 function getpositionmouse(event){
   var x = event.clientX - canvas.getBoundingClientRect().left;
   var y = event.clientY - canvas.getBoundingClientRect().top;
-  console.log(x +' : ' + y);
   return {x:x,y:y};
 }
 
@@ -268,6 +267,59 @@ function save(){
   }
   pdf.save('webboard.pdf');
 }
+
+var recorder = {
+  'record' : litem => {
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(audioStream) {
+      const canvasStream = canvas.captureStream();
+
+      canvasStream.addTrack(audioStream.getAudioTracks()[0]);
+
+      const mediaRecorder = new MediaRecorder(canvasStream);
+      const allChunks = [];
+
+      litem.style.display = 'none';
+      litem.nextSibling.style.display = '';
+      litem.nextSibling.onclick = function(e) {
+        this.style.display = 'none';
+        this.previousSibling.style.display = '';
+        mediaRecorder.stop();
+      };
+
+      mediaRecorder.ondataavailable = e => {
+        allChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = e => {
+        const fullBlob = new Blob(allChunks);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+
+        const downloadUrl = window.URL.createObjectURL(fullBlob);
+        link.href = downloadUrl;
+        link.download = 'media.webm';
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        let tracks = canvasStream.getTracks();
+        tracks.forEach(function(track) {
+          track.stop();
+        });
+      };
+
+
+
+      mediaRecorder.start();
+    });
+  },
+  'stop' : litem => {
+  }
+
+};
+
+
 
 function setSlider(val){
   var slider = document.querySelector('.slider');
